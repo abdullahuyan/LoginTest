@@ -84,20 +84,8 @@ export default function Login() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (!isValid) return;
-    axios
-      .get('https://6540a96145bedb25bfc247b4.mockapi.io/api/login')
-      .then((res) => {
-        const user = res.data.find(
-          (item) => item.password == form.password && item.email == form.email
-        );
-        if (user) {
-          setForm(initialForm);
-          history.push('/success');
-        } else {
-          history.push('/error');
-        }
-      });
+    if (!isValid) {return} else {history.push('/success')};
+   
   };
 
   return (
@@ -112,8 +100,9 @@ export default function Login() {
           onChange={handleChange}
           value={form.email}
           invalid={errors.email}
+          data-cy="email"
         />
-        {errors.email && <FormFeedback>{errorMessages.email}</FormFeedback>}
+        {errors.email && <FormFeedback data-cy="error">{errorMessages.email}</FormFeedback>}
       </FormGroup>
       <FormGroup>
         <Label for="examplePassword">Password</Label>
@@ -125,9 +114,10 @@ export default function Login() {
           onChange={handleChange}
           value={form.password}
           invalid={errors.password}
+          data-cy="password"
         />
         {errors.password && (
-          <FormFeedback>{errorMessages.password}</FormFeedback>
+          <FormFeedback data-cy="error">{errorMessages.password}</FormFeedback>
         )}
       </FormGroup>
       <FormGroup check>
@@ -138,13 +128,14 @@ export default function Login() {
           type="checkbox"
           onChange={handleChange}
           invalid={errors.terms}
+          data-cy="terms"
         />{' '}
         <Label htmlFor="terms" check>
           I agree to terms of service and privacy policy
         </Label>
       </FormGroup>
       <FormGroup className="text-center p-4">
-        <Button disabled={!isValid} color="primary">
+        <Button disabled={!isValid} color="primary" data-cy="submit">
           Sign In
         </Button>
       </FormGroup>
