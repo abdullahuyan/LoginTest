@@ -18,8 +18,8 @@ const initialForm = {
 };
 
 const errorMessages = {
-  email: 'Please enter a valid email address',
-  password: 'Password must be at least 4 characters long',
+  email: 'Geçerli bir email adresi giriniz',
+  password: 'Şifre en az 8 karakter, büyük küçük harf, karakter ve rakam içermeli',
 };
 
 export default function Login() {
@@ -39,10 +39,13 @@ export default function Login() {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
+
+  let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@.#$!%*?&])[A-Za-z\d@.#$!%*?&]{8,15}$/;
+
   useEffect(() => {
     if (
       validateEmail(form.email) &&
-      form.password.trim().length >= 4 &&
+      regex.test(form.password) &&
       form.terms
     ) {
       setIsValid(true);
@@ -64,7 +67,7 @@ export default function Login() {
       }
     }
     if (name == 'password') {
-      if (value.trim().length >= 4) {
+      if (regex.test(value)) {
         setErrors({ ...errors, [name]: false });
       } else {
         setErrors({ ...errors, [name]: true });
